@@ -1,4 +1,6 @@
 let toDO_arr = [];
+//import {sortBy} from "lodash"
+
 
 const init = ()=> {
   if(localStorage["list"]){
@@ -19,23 +21,23 @@ const declareEvents = ()=>{
       e.preventDefault();
       let time = document.querySelector("#id_time_input").value;
       const taskObj = {taskStr: document.querySelector("#id_task_input").value,time: time, deleted: false }
-      console.log("befor push", toDO_arr);
+     // console.log("befor push", toDO_arr);
       toDO_arr.unshift(taskObj);
-      console.log( "after push",toDO_arr);
-
-      toDO_arr.sort((a, b)=>{
-        if(a.time > b.time && b.time != "") {
-          console.log( "if1");
-          return 1;
+      //console.log( "after push",toDO_arr);
+      toDO_arr = _.sortBy( toDO_arr, "time");
+    //   toDO_arr.sort((a, b)=>{
+    //     if(a.time > b.time && b.time != "") {
+    //       console.log( "if1");
+    //       return 1;
           
-        }
-        if(b.time == "" || (a.time < b.time && a.time != "" )) {
-          console.log( "if2task",a.taskStr,  b.taskStr);
-        return -1;
-        }
-        console.log( "if3" );
-        return 0;
-     });
+    //     }
+    //     if(b.time == "" || (a.time < b.time && a.time != "" )) {
+    //       console.log( "if2task",a.taskStr,  b.taskStr);
+    //     return -1;
+    //     }
+    //     console.log( "if3" );
+    //     return 0;
+    //  });
       localStorage["list"] = JSON.stringify(toDO_arr);
       document.querySelector("#id_task_input").value = '';
       document.querySelector("#id_time_input").value = '';
@@ -45,6 +47,7 @@ const declareEvents = ()=>{
 }
 
 const resetApp = ()=>{
+    localStorage["list"] = "";
     toDO_arr = [];
     updateUi();
 }
